@@ -1,0 +1,10 @@
+<h1>Run configure.ac File</h1>
+
+<p>Just a short note for everyone who&#8217;s expecting a <code>configure</code> file in a Software he wants to build but there&#8217;s only a <code>configure.ac</code> file. This File is for the so called <code>autoconf</code> command which generates the configure file. Just run <code>autoconf</code> to generate it.</p>
+<p>Please mind that you need to install the following packages for sucess:</p>
+<p>autogen<br />
+autoconf<br />
+libtool<br />
+autoconf</p>
+<p>If you miss one of those packages you might end up with the following error: <code>configure.ac:3: error: possibly undefined macro</code></p>
+<p>Sometimes you need to install some dependencies for the configure process. To do so run <code>autoreconf --install</code></p>

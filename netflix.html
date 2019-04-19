@@ -1,0 +1,29 @@
+<h1>Setup Netflix in Kodi for Raspberrypi 3</h1>
+
+
+<p>This is a short instruction on how to get the <a href="https://github.com/asciidisco/plugin.video.netflix">Netflix Plugin for Kodi</a> working on a raspberrypi 3 with the current Beta Version 0.14.22. It may be outdated when you read it. Especially have a look <a href="https://github.com/caphm/kodi-repo/raw/master/repository.kodi-repo-caphm/repository.kodi-repo-caphm-1.0.0.zip">at the official testing repo</a> for a currently working version.</p>
+
+
+
+<p>First of all you need the inputstream adaptive Plugin installed on your raspberrypi: <code>sudo apt-get install kodi-inputstream-adaptive</code></p>
+
+
+
+<p>The plugin also calls for a python module called cryptodome so install it via <code>pip install --user pycryptodomex</code> for the user you start kodi with. Beware: If you&#8217;re using multiple python versions at once, ensure youre installing it with the correct pip (same version as your kodi uses).</p>
+
+
+
+<p>No we need the widevine library which decrypts the DRM protected netflix streams. The easiest way of getting it is to install the Widevine Support Plugin as described <a href="https://www.matthuisman.nz/2018/05/kodi-widevine-support.html">here</a>. This will automatically download the version suitable for your architecture and also plays a DRM protected Stream as test.</p>
+
+
+
+<p>No you can install the netflix plugin. For me only the current Beta Version (<a href="https://m.mediafire.com/folder/tnu4623j66c66">direct donwloads</a>) worked. After installing it you can login to netflix and stream a video. The plugin then will upgrade your widevine version from above which will need 2 GB free space on your system during installation (it extracts the library from a chrome OS installation image) and root privilieges which you can grant trhough the installation process.</p>
+
+
+
+<p>After this you should be able to watch videos from netflix. However you remain with one issue: Your raspberrypi is not capable of decrypting and watching a 1080p stream simultaneously. So you have to make 720p as default. To do so go to the Settings of your netflix addon > Inputstream Addon Settings > Set both &#8222;max resolution&#8220; values to &#8222;720p&#8220;.</p>
+
+
+
+<p><strong>Known errors</strong><br>I experienced some trouble logging into my account and playing a video. For both problems I found an entry in my log file (~/.kodi/temp/kodi.log) which looks like: <code>route(filter(None, g.PATH.split('/')))</code> The solution here is to switch your netflix Settings to IPC over HTTP: Settings &gt; Expert &gt; Enable IPC over HTTP. I had to play around with it a bit to make it work so don&#8217;t hassitate to turn it on and off at least once and try the failed action in between.<br><br></p>
+

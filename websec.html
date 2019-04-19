@@ -1,0 +1,61 @@
+<h1>How to be a responsible web developer/web admin</h1>
+
+<p>Due to the latest changes in the <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" rel="noopener" target="_blank">GDPR</a> I stumbled upon some topics and issues people where facing while trying to make their website compliant to the new demands. This brought me to this little tutorial on how to make your website more secure and less sniffing.<br />
+Not all of the topics will be GDPR-related as this is NOT another &#8222;how to make your website GDPR compliant&#8220;-article. However this is a collection of different things you, as a web Developer or Administrator of for example a wordpress site should be aware of. Basically it&#8217;s a &#8222;How to not fuck around with the security of your users&#8220;.</p>
+<h3>Google Fonts</h3>
+<p>A lot of People use &#8222;<a href="https://fonts.google.com/" rel="noopener" target="_blank">Google Fonts</a>&#8220; in their website. So do the most wordpress themes. This is not a bad idead by default. The problem is that you cannot be sure every user has the Font you are using installed. So if you use Arial as a default Font and someone doesn&#8217;t have this font installed on his computer &#8211; no text can be displayed. This is not exactly right, because every web browser provides a default Font it falls back to in such cases. So the website is just not displayed with the Font you would want it to, but with a Fallback-Font. To ensure everyone can see it with the same Font you can use Google Fonts where the Fonts are loaded directly from Google.</p>
+<p><strong>The Problem:</strong> With every visit the IP Adress of the user gets transported to Google. So in fact they can track every user uniquely over every site where Google Fonts are used. This is bad and you shouldn&#8217;t be part of that problem. </p>
+<p><strong>The Solution:</strong> If you are a web Developer please consider providing the Font as a TTF File as described <a href="https://www.w3schools.com/cssref/css3_pr_font-face_rule.asp" rel="noopener" target="_blank">here</a>.<br />
+If you use wordpress, Google Fonts are very likely to be used by your theme. To verfiy this, you can run the following Linux Command in your wordpress root Folder:</p>
+<p><code>grep -ir "fonts.googleapis" .</code></p>
+<p>If you get any results Google Fonts are used by one of your themes. The normal way to load them under wordpress is via the following PHP function:</p>
+<p><code>wp_enqueue_style( 'Gfonts', 'https://fonts.googleapis.com/css?family=Alegreya+Sans:300,regular,italic,500,700|Roboto:300,300italic,regular,italic,500,700', array(), true );</code></p>
+<p>The values may differ in your case but the URL for Google Fonts is the important part. To disable this function just put a # before this specific line in every PHP file found by the grep command above. You can ensure you did this for every line by running</p>
+<p><code>grep -ir "fonts.googleapis" . | grep -iv "#"</code></p>
+<p>If you don&#8217;t get any result you sucessfully removed Google Fonts from your website. Please remember to have a look on your website if it still looks good.</p>
+<h3>Referrer-Policy</h3>
+<p>When you click a link, your browser will typically send the HTTP referer header to the webserver where the destination webpage is at. The header contains the full URL of the page you came from. This lets sites see where traffic comes from. The header is also sent when external resources (such as images, fonts, JS and CSS) are loaded.</p>
+<p><strong>The Problem:</strong> if you link to an external site, this site can track the movement of your users as soon as they visit another page which links to them. In combination with cookies this is one of the most useful tracking possibilities out there. In fact you should not imagine the scenario as the tracking by one single page but by a tracking network consisting of hundreds of thousands of pages where it is really likely that one of the other websites of such a network will be called by the same user. Also think of facebook buttons on a website. As soon as a logged in facebook user visits a site with a facebook button (which, by it&#8217;s nature, refers to facebook), facebook knows that you visited this exact page.</p>
+<p><strong>The Solution:</strong> A great invention called &#8222;<a href="https://w3c.github.io/webappsec-referrer-policy/" rel="noopener" target="_blank">Referrer Policy</a>&#8220; gives you the posibilitie to prevent the transfer of such data to other sites. This is not just for clicked links but also for other referres such as linked images, etc.<br />
+You should have a look at <a href="https://w3c.github.io/webappsec-referrer-policy/#referrer-policies" rel="noopener" target="_blank">the different policies</a>. However I recommend to use <code>no-referrer</code> which disables the referrer Header completly. To do so add the following meta tag to the <code>header.php</code> of your wordpress theme or your normal HTML Header:</p>
+<p><code>&lt;meta name='referrer' content='no-referrer'&gt;</code></p>
+<p>Also you can use <a href="https://anders.unix.se/2015/05/15/wordpress-plugin-noreferrer/" rel="noopener" target="_blank">this</a> wordpress plugin.</p>
+<h3>HTTP Headers</h3>
+<p>This part focuses on the security of your website. We want to prevent XSS, MIME-sniffing of the content type and framing of the website. We use the following Header options for this purpose:</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Security/HTTP_strict_transport_security" rel="noopener" target="_blank">Strict-Transport-Security</a><br />
+<a href="https://htaccess.wordpress.com/2009/09/22/x-content-type-options-nosniff-header/" rel="noopener" target="_blank">X-Content-Type-Options</a><br />
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options" rel="noopener" target="_blank">X-Frame-Options</a><br />
+<a href="https://blogs.msdn.microsoft.com/ieinternals/2011/01/31/controlling-the-xss-filter/" rel="noopener" target="_blank">X-XSS-Protection</a></p>
+<p>Here is a complete <code>.htaccess</code> file with all the Headers set:</p>
+<p><code><IfModule mod_headers.c><br />
+	Header set X-XSS-Protection "1; mode=block"<br />
+	Header always append X-Frame-Options SAMEORIGIN<br />
+	Header set X-Content-Type-Options nosniff<br />
+        Header set Strict-Transport-Security: max-age=15768000<br />
+</IfModule></code></p>
+<p>Just place the <code>.htaccess</code> File in your webroot or appent the code above into any existing <code>.htaccess</code> File. Please note that you need to enable the apache module <code>mod_headers</code> to make this work.<br />
+You can ensure the changes worked via curl:</p>
+<p><code>$ curl -I <em>URL</em><br />
+HTTP/1.1 200 OK<br />
+Date: Thu, 24 May 2018 19:05:14 GMT<br />
+Server: Apache/2.2.15 (CentOS)<br />
+X-Powered-By: PHP/7.2.0<br />
+X-Robots-Tag: noindex<br />
+<strong>X-Content-Type-Options: nosniff</strong><br />
+Access-Control-Expose-Headers: X-WP-Total, X-WP-TotalPages<br />
+Access-Control-Allow-Headers: Authorization, Content-Type<br />
+Allow: GET<br />
+<strong>Strict-Transport-Security: max-age=15768000</strong><br />
+<strong>X-Frame-Options: DENY</strong><br />
+<strong>X-Xss-Protection: 1; mode=block</strong><br />
+Connection: close<br />
+Content-Type: application/json; charset=UTF-8<br />
+</code></p>
+<h3>SSL</h3>
+<p>I shouldn&#8217;t need to say much about SSL and the need of an encrypted website. Since <a href="https://letsencrypt.org/" rel="noopener" target="_blank">letsencrypt</a> launched you have no excuse for not having a valid SSL Certificate. What you should do is to enforce the use of https even if someone acesses the website unencrypted. This can be done in the .htaccess file:</p>
+<p><code>RewriteEngine on<br />
+RewriteCond %{HTTPS} !=on<br />
+RewriteCond %{ENV:HTTPS} !=on<br />
+RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]</code></p>
+<p>While doing this you also should ensure that you&#8217;re only linking to sources such as images, etc. via https.</p>
+
