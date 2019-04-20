@@ -1,0 +1,8 @@
+<h1>Reset password for wordpress installation</h1>
+
+If you ever in the position of having forgotten your password for a user of your wordpress installation here are good news: You can reset it.<br />
+Connect to your mysql database as root and execute:<br />
+<br /><code>update wp_users set user_pass=md5("password") where user_login="user";</code><br/><br />
+User <i>user</i> now authenticates with password <i>password</i>. You can now login with those credentials and change your password in the wordpress dashboard.<br /><br />
+If you want to set your password directly via sql ensure you have disabled history logging (e.g. via <code>export MYSQL_HISTFILE=/dev/null</code>) otherwise one would be able to read your password in cleartext from the historyfile <code>~/.mysql_history</code>. Don't forget to set MYSQL_HISTFILE back to normal.
+
