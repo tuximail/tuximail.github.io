@@ -1,0 +1,29 @@
+<h1>Send Mail for every SSH Login</h1>
+
+<p>If you&rsquo;re googling this topic there is an unbelievable amount of grossly negligent &ldquo;solutions&rdquo; to this problem.</p>
+
+<p>The top two results in my search engine tell you to do this:</p>
+
+<p><code>$ cd /root<br />
+$ vi .bashrc</code></p>
+
+<p>And trigger some mail there with the information wanted.
+This is insecure for multiple reasons:</p>
+
+<ol>
+<li>One can login via SSH without triggering the <i>.bashrc</i> file. For example with <code>ssh -N</code></li>
+<li>This is the most important part: You should never ever enable direct ssh login for root! The fact that those tutorials are encouraging such behaviour is sick</li>
+<li>Every authentication should only and only be managed by <a href="https://web.archive.org/web/20180303034326/http://www.tuxradar.com/content/how-pam-works">PAM</a></li>
+</ol>
+
+
+<p>This is the reason why I have the following setup I hereby share with you:</p>
+
+<p><a href="https://github.com/tuximail/scripts/blob/master/login_notify.sh">This script</a> (placed somewhere in your system) is used to send a mail after a login. To trigger it, PAM has to be told so in <em>/etc/pam.d/sshd</em>:</p>
+
+<p><code>session optional pam_exec.so seteuid /etc/ssh/login_notify.sh</code></p>
+
+<p>The second word <em>optional</em> is important here as it allows a login even if the script doesn&rsquo;t exit with code 0. If you replace it with <em>required</em> the login will fail if the script fails. This might not be what you want because the mail sending process may be broken because some issues your server might have and this will prevent you from logging in.
+Don&rsquo;t forget to make the script itself executable:</p>
+
+<p><code>chmod +x /path/to/login_notify.sh</code></p>
