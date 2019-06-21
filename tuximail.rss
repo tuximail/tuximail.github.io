@@ -5,7 +5,7 @@
 <description>A Linux Blog with irregular updates</description>
 <link>https://tuximail.github.io</link>
 <language>en-us</language>
-<pubDate>Fri, 21 Jun 2019 23:50:58 CEST</pubDate>
+<pubDate>Sat, 22 Jun 2019 00:09:27 CEST</pubDate>
 <item>
 		<title>Send Mail for every SSH Login</title>
 		<description><![CDATA[<h1>Send Mail for every SSH Login</h1>
@@ -38,7 +38,8 @@ Don&rsquo;t forget to make the script itself executable:</p>
 
 <p><code>chmod +x /path/to/login_notify.sh</code></p>]]></description>
 		<link>https://tuximail.github.io/pam.html</link>
-		<guid isPermalink=false>pam.html</guid>
+		<guid isPermalink='false'>pam.html</guid>
+		<pubDate>	06/19 </pubDate>
 	</item>
 <item>
 		<title>Setup Netflix in Kodi for Raspberrypi 3</title>
@@ -71,7 +72,8 @@ Don&rsquo;t forget to make the script itself executable:</p>
 
 <p><strong>Known errors</strong><br>I experienced some trouble logging into my account and playing a video. For both problems I found an entry in my log file (~/.kodi/temp/kodi.log) which looks like: <code>route(filter(None, g.PATH.split('/')))</code> The solution here is to switch your netflix Settings to IPC over HTTP: Settings &gt; Expert &gt; Enable IPC over HTTP. I had to play around with it a bit to make it work so don&#8217;t hassitate to turn it on and off at least once and try the failed action in between.<br><br></p>]]></description>
 		<link>https://tuximail.github.io/netflix.html</link>
-		<guid isPermalink=false>netflix.html</guid>
+		<guid isPermalink='false'>netflix.html</guid>
+		<pubDate>	03/19 </pubDate>
 	</item>
 <item>
 		<title>How to be a responsible web developer/web admin</title>
@@ -136,7 +138,8 @@ RewriteCond %{ENV:HTTPS} !=on<br />
 RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]</code></p>
 <p>While doing this you also should ensure that you&#8217;re only linking to sources such as images, etc. via https.</p>]]></description>
 		<link>https://tuximail.github.io/websec.html</link>
-		<guid isPermalink=false>websec.html</guid>
+		<guid isPermalink='false'>websec.html</guid>
+		<pubDate>	05/18 </pubDate>
 	</item>
 <item>
 		<title>Run configure.ac File</title>
@@ -151,7 +154,8 @@ autoconf</p>
 <p>If you miss one of those packages you might end up with the following error: <code>configure.ac:3: error: possibly undefined macro</code></p>
 <p>Sometimes you need to install some dependencies for the configure process. To do so run <code>autoreconf --install</code></p>]]></description>
 		<link>https://tuximail.github.io/configure.html</link>
-		<guid isPermalink=false>configure.html</guid>
+		<guid isPermalink='false'>configure.html</guid>
+		<pubDate>	05/18 </pubDate>
 	</item>
 <item>
 		<title>Reset password for wordpress installation</title>
@@ -163,7 +167,8 @@ Connect to your mysql database as root and execute:<br />
 User <i>user</i> now authenticates with password <i>password</i>. You can now login with those credentials and change your password in the wordpress dashboard.<br /><br />
 If you want to set your password directly via sql ensure you have disabled history logging (e.g. via <code>export MYSQL_HISTFILE=/dev/null</code>) otherwise one would be able to read your password in cleartext from the historyfile <code>~/.mysql_history</code>. Don't forget to set MYSQL_HISTFILE back to normal.]]></description>
 		<link>https://tuximail.github.io/wordpressrecov.html</link>
-		<guid isPermalink=false>wordpressrecov.html</guid>
+		<guid isPermalink='false'>wordpressrecov.html</guid>
+		<pubDate>	01/15 </pubDate>
 	</item>
 <item>
 		<title>Explain parts of a linux command with explainshell</title>
@@ -172,7 +177,8 @@ If you want to set your password directly via sql ensure you have disabled histo
 <p>Ever had a linux command and not sure what it does exactly?
 <a href="https://explainshell.com/">explainshell.com</a> is here to help you! Enter the command in the search field and the site will disassemble it into its parts and explain what every part does. You should do this everytime before you just blindly copy and paste something from the internet.</p>]]></description>
 		<link>https://tuximail.github.io/explainshell.html</link>
-		<guid isPermalink=false>explainshell.html</guid>
+		<guid isPermalink='false'>explainshell.html</guid>
+		<pubDate>	01/14 </pubDate>
 	</item>
 <item>
 		<title>Two Problems</title>
@@ -214,7 +220,8 @@ If you want to set your password directly via sql ensure you have disabled histo
 
 <p><a href="http://nedbatchelder.com/blog/201204/two_problems.html">Source</a></p>]]></description>
 		<link>https://tuximail.github.io/twoproblems.html</link>
-		<guid isPermalink=false>twoproblems.html</guid>
+		<guid isPermalink='false'>twoproblems.html</guid>
+		<pubDate>	10/12 </pubDate>
 	</item>
 </channel>
 </rss>
