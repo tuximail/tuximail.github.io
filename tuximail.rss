@@ -5,7 +5,28 @@
 <description>A Linux Blog with irregular updates</description>
 <link>https://tuximail.github.io</link>
 <language>en-us</language>
-<pubDate>Sat, 22 Jun 2019 00:25:40 CEST</pubDate>
+<pubDate>Sun, 18 Aug 2019 17:01:10 CEST</pubDate>
+<item>
+		<title>How to keep your Arch Linux fully functional after a kernel upgrade</title>
+		<description><![CDATA[<h1>How to keep your Arch Linux fully functional after a kernel upgrade</h1>
+
+<p>As a Arch is a rolling release distro, kernel updates are very common. This can be really anoying as some kernel modules which haven&rsquo;t been loaded already or need to be re-loaded are failing their job. Here&rsquo;s an example:</p>
+
+<p><code>$ encfs ~/encrypted ~/private <br/>
+	EncFS Password: <br />
+	fuse: device not found, try 'modprobe fuse' firsta <br />
+	fuse failed. Common problems: <br />
+	- fuse kernel module not installed (modprobe fuse) <br />
+	- invalid options -- see usage messagei <br /></code></p>
+
+<p>To prevent such problems and keep your arch linux working simply install the package <em>kernel-modules-hook</em> from the aur.
+After the installation you just need to start (and if you want: enable) the service: <br />
+<code>$ sudo systemctl daemon-reload <br />
+$ sudo systemctl start linux-modules-cleanup</code></p>]]></description>
+		<link>https://tuximail.github.io/kernel-modules.html</link>
+		<guid isPermalink='false'>kernel-modules.html</guid>
+		<pubDate>	Sun, 18 Aug 2019 16:57:12 CEST </pubDate>
+	</item>
 <item>
 		<title>Send Mail for every SSH Login</title>
 		<description><![CDATA[<h1>Send Mail for every SSH Login</h1>

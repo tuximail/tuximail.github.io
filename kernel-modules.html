@@ -1,0 +1,15 @@
+<h1>How to keep your Arch Linux fully functional after a kernel upgrade</h1>
+
+<p>As a Arch is a rolling release distro, kernel updates are very common. This can be really anoying as some kernel modules which haven&rsquo;t been loaded already or need to be re-loaded are failing their job. Here&rsquo;s an example:</p>
+
+<p><code>$ encfs ~/encrypted ~/private <br/>
+	EncFS Password: <br />
+	fuse: device not found, try 'modprobe fuse' firsta <br />
+	fuse failed. Common problems: <br />
+	- fuse kernel module not installed (modprobe fuse) <br />
+	- invalid options -- see usage messagei <br /></code></p>
+
+<p>To prevent such problems and keep your arch linux working simply install the package <em>kernel-modules-hook</em> from the aur.
+After the installation you just need to start (and if you want: enable) the service: <br />
+<code>$ sudo systemctl daemon-reload <br />
+$ sudo systemctl start linux-modules-cleanup</code></p>
