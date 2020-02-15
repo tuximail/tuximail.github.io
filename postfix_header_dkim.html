@@ -1,0 +1,50 @@
+<h1>Postfix Header Rewrite vs. DKIM</h1>
+<p><strong>Please note: This is an instruction on how to alter the header of a mail in postfix while also using DKIM. If you just want to alter the header of your mail see <a href="http://www.postfix.org/ADDRESS_REWRITING_README.html">the postfix documentation</a> on how to do so. There is no need for the steps below if you do not use DKIM!</strong></p>
+<p><a href="https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail">DKIM</a> is a great way to protect yourself from spam and to prevent fraud based on your mailserver domain.
+But in combination with local postfix header rewrites we have one big problem:</p>
+<ul>
+<li>DKIM signing is a pre-queue action</li>
+<li>header rewriting is a post-queue action</li>
+</ul>
+<br>
+In other words: postfix will alter the header of our already DKIM-signed header - this will lead to DKIM Error: 550 5.7.0.
+Furthermore <a href="https://github.com/roehling/postsrsd">SRS</a> won't help us on actual header rewrites. So we have to build our own way to trigger the rewrite after the DKIM signing and then re-sign the mail.
+<h3>External script</h3>
+<p>Basically we use an external script to dump the content of the initial mail, alter it how ever we like it to (you cannot just alter the header here - we also can alter the message body) and resend the mail with sendmail. If you want to check: send yourself a mail via sendmail directly from your server and you'll find that mail DKIM signed. This is what we want to.</p>
+<h3>Postfix Hook</h3>
+<p>To make postfix call this external script we need to create a so called hook in the first line of <em>master.cf</em>:
+<br>
+<br>
+<code>-o content_filter=dkimhook:resend</code>
+<br>
+<br>
+now we trigger the hook in the last line of the file:
+<br>
+<br>
+<code>dkimhook unix - n n - - pipe flags=F user=username argv=/usr/local/bin/yourscript ${sender} ${size} ${recipient}</code>
+<br>
+<br>
+as you can see we can pass the bashscript information from the mail such as <em>sender</em> and <em>recipient</em> as params. We can access those values in the script via the param vars later.</p>
+<p>If you don't already have a recipient check in postfix you need to create one in the <em>main.cf</em>:
+<br>
+<br>
+<code>smtpd_recipient_restrictions = check_recipient_access hash:/etc/postfix/recipient_block</code>
+<br>
+<br>
+in the file <em>recipient_block</em> we are now able to define when this hook should be triggered. In my case I only want it for one specific recipient so I have the following entry:
+<br>
+<br>
+<code>alias@mydomain.com FILTER dkimhook:resend</code>
+<br>
+<br>
+See the <a href="http://www.postfix.org/RESTRICTION_CLASS_README.html">Postfix Documentation</a> for all available types of rules. However: you shouldn't use this method on external mails as you completly destroy the benefit of DKIM and lose the origin of the mail!</p>
+<p>Now reload your postfix service and the hook should take effect.</p>
+<p><strong>Some hints for developing the hook script:</strong></p>
+<ul>
+<li>as you've seen above we configure the user the script is executed with in the <em>master.cf</em> - keep that in mind and don't use any privileged user!</li>
+<li>inside the script every echo will be logged to <em>/var/log/mail.log</em></li>
+<li>the script must exit with status 0 otherwise you will receive a mail with this incident reported</li>
+<li>if you want to dump the complete mail to a file do it like this:
+<br>
+<code>less &lt;&amp;0  &gt; &quot;$file&quot;</code></li>
+</ul>
