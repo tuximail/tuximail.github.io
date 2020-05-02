@@ -5,7 +5,27 @@
 <description>A Linux Blog with irregular updates</description>
 <link>https://tuximail.github.io</link>
 <language>en-us</language>
-<pubDate>Sat, 15 Feb 2020 17:10:10 CET</pubDate>
+<pubDate>Sat, 02 May 2020 14:23:46 CEST</pubDate>
+<item>
+		<title>How to use 'leave' on arch Linux</title>
+		<description><![CDATA[<h1>How to use 'leave' on arch Linux</h1>
+<p>Recently I discovered a very nice tool on debian-like systems called &quot;leave&quot;.
+It's only purpose is to remind you when you have to leave.</p>
+<p>Example:</p>
+<pre>
+$ date +%H:%M:%S
+14:17:29
+$ leave +0020
+Alarm set for Sat May  2 14:37. (pid 53921)
+</pre>
+<p>What we did here was setting the leave reminder in 20 Minutes. You also can set a fix time with <pre>$ leave 15:13</pre>
+Too bad this tool does not exist in the AUR. But I discovered a simple way to use the debian version.
+Just download the deb file. For example the <a href="https://packages.debian.org/buster/amd64/leave/download">64-bit version</a>.
+Unpackage it and you'll find the compiled binary in <i>./usr/bin/leave</i>. Just move it to this location and you are ready to use it.</p>]]></description>
+		<link>https://tuximail.github.io/leave.html</link>
+		<guid isPermalink='false'>leave.html</guid>
+		<pubDate>	Sat, 02 May 2020 14:22:37 CEST </pubDate>
+	</item>
 <item>
 		<title>Postfix Header Rewrite vs. DKIM</title>
 		<description><![CDATA[<h1>Postfix Header Rewrite vs. DKIM</h1>
