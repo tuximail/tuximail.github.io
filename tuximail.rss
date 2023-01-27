@@ -5,7 +5,14 @@
 <description>A Linux Blog with irregular updates</description>
 <link>https://tuximail.github.io</link>
 <language>en-us</language>
-<pubDate>Sat, 02 May 2020 14:23:46 CEST</pubDate>
+<pubDate>Fri, 27 Jan 2023 21:28:40 CEST</pubDate>
+<item>
+		<title>Flickering in kodi when using volume buttons</title>
+		<description><![CDATA[<h1>Flickering in kodi when using volume buttons</h1> <p>I experienced this weird behavour in kodi after a fresh setup where movies played fine but as soon as I changed the volume it flickered because of the appearing volume bar. The fix is to go to Settings &gt; Player &gt; Videos &gt; Processing &gt; PRIME Render Method &gt; set to EGL</p> <p>P.s. this was on raspberrypi 3B</p>]]></description>
+		<link>https://tuximail.github.io/kodi_flickering.html</link>
+		<guid isPermalink='false'>kodi_flickering.html</guid>
+		<pubDate>Fri, 27 Jan 2023 21:28:40 CEST</pubDate>
+</item>
 <item>
 		<title>How to use 'leave' on arch Linux</title>
 		<description><![CDATA[<h1>How to use 'leave' on arch Linux</h1>
