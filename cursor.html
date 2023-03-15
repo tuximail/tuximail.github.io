@@ -1,0 +1,15 @@
+<h1>Hide mouse cursor with transparent theme</h1>
+<p>I was unable to hide the mouse cursor in an installation with any method. Unclutter, Xorg Settings - they all failed. So I came up with the soltuion to use an icon theme that is transparent.</p>
+<p>There is <a href="https://aur.archlinux.org/packages/xcursor-transparent-theme">this</a> existing theme but it fails to work even as it is loaded correctly. So I created my own theme but the issue persisted: It was loaded but did not show any effect.</p>
+<p>So here is the hardcore version:</p>
+<ul>
+<li>Take <a href="transparent">this</a> file and move it to any of the preinstalled cursor themes of your GUI (e.g.<em>/usr/share/icons/whiteglass/cursors</em>)</li>
+<li>Now make a backup of those files: <code>sudo cp /usr/share/icons/whiteglass/cursors ~/cursor_backup</code></li>
+<li>Let's replace all the original files with the one copied:</li>
+</ul>
+<pre><code class="language-bash">$ cd /usr/share/icons/whiteglass/cursors/
+$ rm * # remember - we have a backup
+$ cp ~/cursor_backup/transparent .
+$ for i in ~/cursor_backup/*; do name=$(basename &quot;$i&quot;); ln -s transparent &quot;$name&quot;, done
+</code></pre>
+<p>Now load the theme via your GUI or <code>gsettings set org.gnome.desktop.interface cursor-theme whiteglass</code> and your pointer should be gone. Not sure why the same method did not work with a custom theme name but anyway!</p>
