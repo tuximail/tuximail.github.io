@@ -1,0 +1,27 @@
+<h1>Mozillavpn under Arch Linux</h1>
+
+<p>The AUR <a href="https://aur.archlinux.org/packages/mozillavpn">provides a mozillavpn package</a>. It used to work
+for me, then it failed. So I debugged the issue a bit: </p>
+
+<p>The issue was found in the systemd service for mozillavpn:<br/><br/>
+<code>
+	$ systemctl status mozillavpn<br/>
+	Error listing tables: netlink receive: operation not permitted
+</code>
+<br />
+<br />
+When verifiying the functionality of nft I encountered this:
+<br />
+<br />
+<code>
+	$ nft list ruleset
+<br />
+	netlink: Error: cache initialization failed: Invalid argument
+</code>
+
+<br />
+<br />
+This seems like a critical error but is very simple to explain. As nftables works with userspaces it is mandatory they
+are in sync with the systems ones. A quick check revealed that the installed kernel did not match the loaded kernel.
+Easiest way to fix this is of course to reboot. After that we get a valid output from <code>nft list ruleset</code>. So
+turns out the pattern when the client did not work was that I then had a kernel updated that I had not loaded.</p>
